@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Plus } from 'lucide-react';
 
 interface ModInputProps {
-  onModAdd: (workshopId: string, modId: string) => void;
+  onModAdd: (workshopId: string, modId: string, mapFolder?: string) => void;
 }
 
 export const ModInput = ({ onModAdd }: ModInputProps) => {
@@ -16,9 +16,9 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
     e.preventDefault();
     
     try {
-      // Try to extract Workshop ID and Mod ID from pasted text
       const workshopMatch = input.match(/Workshop\s*ID:?\s*(\d+)/i);
       const modMatch = input.match(/Mod\s*ID:?\s*([^\s\n]+)/i);
+      const mapFolderMatch = input.match(/Map\s*Folder:?\s*([^\s\n]+)/i);
       
       if (!workshopMatch || !modMatch) {
         toast.error("Could not find Workshop ID or Mod ID in the text. Please make sure to include both.");
@@ -27,8 +27,9 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
 
       const workshopId = workshopMatch[1];
       const modId = modMatch[1];
+      const mapFolder = mapFolderMatch ? mapFolderMatch[1] : undefined;
 
-      onModAdd(workshopId, modId);
+      onModAdd(workshopId, modId, mapFolder);
       setInput('');
       toast.success("Mod information added successfully!");
     } catch (error) {
@@ -42,7 +43,7 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
       <Input
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Paste text containing Workshop ID and Mod ID..."
+        placeholder="Paste text containing Workshop ID, Mod ID, and optionally Map Folder..."
         className="flex-1"
         disabled={loading}
       />

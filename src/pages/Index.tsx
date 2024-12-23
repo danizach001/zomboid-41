@@ -5,13 +5,14 @@ import { ModList } from '@/components/ModList';
 interface Mod {
   workshopId: string;
   modId: string;
+  mapFolder?: string;
 }
 
 const Index = () => {
   const [mods, setMods] = useState<Mod[]>([]);
 
-  const handleAddMod = (workshopId: string, modId: string) => {
-    setMods([...mods, { workshopId, modId }]);
+  const handleAddMod = (workshopId: string, modId: string, mapFolder?: string) => {
+    setMods([...mods, { workshopId, modId, mapFolder }]);
   };
 
   const handleRemoveMod = (index: number) => {
@@ -27,7 +28,7 @@ const Index = () => {
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
             Paste your Steam Workshop URLs or text containing mod information below. 
-            The tool will automatically extract Workshop IDs and Mod IDs.
+            The tool will automatically extract Workshop IDs, Mod IDs, and Map Folders.
           </p>
         </div>
         

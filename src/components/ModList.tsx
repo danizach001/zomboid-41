@@ -8,6 +8,7 @@ import { useState } from "react";
 interface Mod {
   workshopId: string;
   modId: string;
+  mapFolder?: string;
 }
 
 interface ModListProps {
@@ -30,9 +31,19 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
     toast.success("Mod IDs copied to clipboard!");
   };
 
+  const copyMapFolders = () => {
+    const mapFolders = mods
+      .filter(mod => mod.mapFolder)
+      .map(mod => mod.mapFolder)
+      .join(';') + ';';
+    navigator.clipboard.writeText(mapFolders);
+    toast.success("Map folders copied to clipboard!");
+  };
+
   const filteredMods = mods.filter(mod => 
     mod.modId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    mod.workshopId.toLowerCase().includes(searchTerm.toLowerCase())
+    mod.workshopId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (mod.mapFolder && mod.mapFolder.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   if (mods.length === 0) {
@@ -42,6 +53,8 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
       </div>
     );
   }
+
+  const hasMapFolders = mods.some(mod => mod.mapFolder);
 
   return (
     <div className="w-full max-w-2xl space-y-4">
@@ -64,6 +77,16 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
             <Copy className="w-4 h-4 mr-2" />
             Copy Mod IDs
           </Button>
+          {hasMapFolders && (
+            <Button 
+              variant="outline" 
+              onClick={copyMapFolders}
+              className="hover:bg-gaming-700/10"
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy Map Folders
+            </Button>
+          )}
         </div>
       </div>
       
@@ -88,6 +111,11 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
                 <p className="font-mono text-sm">
                   <span className="text-gaming-400">Mod ID:</span> {mod.modId}
                 </p>
+                {mod.mapFolder && (
+                  <p className="font-mono text-sm">
+                    <span className="text-gaming-400">Map Folder:</span> {mod.mapFolder}
+                  </p>
+                )}
               </div>
               <Button
                 variant="ghost"
