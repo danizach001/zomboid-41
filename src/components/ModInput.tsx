@@ -15,9 +15,10 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
     e.preventDefault();
     
     try {
-      // Extract Workshop ID and Mod ID from URL or text
-      const workshopMatch = url.match(/WORKSHOP\s*ID\s*:\s*(\d+)/i);
-      const modMatch = url.match(/MOD\s*ID\s*:\s*([^\s]+)/i);
+      // Extract Workshop ID and Mod ID from text
+      // Looking for patterns like "Workshop ID: 2392709985" and "Mod ID: tsarslib"
+      const workshopMatch = url.match(/Workshop\s*ID:?\s*(\d+)/i);
+      const modMatch = url.match(/Mod\s*ID:?\s*([^\s\n]+)/i);
 
       if (!workshopMatch || !modMatch) {
         toast.error("Could not find Workshop ID or Mod ID in the provided text");
@@ -32,6 +33,7 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
       toast.success("Mod information extracted successfully!");
     } catch (error) {
       toast.error("Error processing the input");
+      console.error("Error processing mod input:", error);
     }
   };
 
@@ -40,7 +42,7 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
       <Input
         value={url}
         onChange={(e) => setUrl(e.target.value)}
-        placeholder="Paste Steam Workshop URL or text containing Workshop ID and Mod ID..."
+        placeholder="Paste text containing Workshop ID and Mod ID..."
         className="flex-1"
       />
       <Button type="submit" className="bg-gaming-600 hover:bg-gaming-700">
