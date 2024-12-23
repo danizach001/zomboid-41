@@ -14,19 +14,19 @@ interface ModListProps {
 }
 
 export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
-  const copyModList = () => {
-    const modText = mods
-      .map(mod => `Workshop ID: ${mod.workshopId}\nMod ID: ${mod.modId}`)
-      .join('\n\n');
+  const copyFormattedList = () => {
+    const workshopIds = mods.map(mod => mod.workshopId).join(';') + ';';
+    const modIds = mods.map(mod => mod.modId).join(';') + ';';
     
-    navigator.clipboard.writeText(modText);
-    toast.success("Mod list copied to clipboard!");
+    const formattedText = `${workshopIds}\n${modIds}`;
+    navigator.clipboard.writeText(formattedText);
+    toast.success("Formatted mod list copied to clipboard!");
   };
 
   if (mods.length === 0) {
     return (
       <div className="text-center text-muted-foreground mt-8">
-        No mods added yet. Paste a Steam Workshop URL to get started.
+        No mods added yet. Paste text containing Workshop ID and Mod ID to get started.
       </div>
     );
   }
@@ -37,11 +37,11 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
         <h2 className="text-xl font-semibold">Added Mods ({mods.length})</h2>
         <Button 
           variant="outline" 
-          onClick={copyModList}
+          onClick={copyFormattedList}
           className="hover:bg-gaming-700/10"
         >
           <Copy className="w-4 h-4 mr-2" />
-          Copy All
+          Copy Formatted List
         </Button>
       </div>
       <div className="space-y-3">
