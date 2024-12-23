@@ -14,13 +14,16 @@ interface ModListProps {
 }
 
 export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
-  const copyFormattedList = () => {
+  const copyWorkshopIds = () => {
     const workshopIds = mods.map(mod => mod.workshopId).join(';') + ';';
+    navigator.clipboard.writeText(workshopIds);
+    toast.success("Workshop IDs copied to clipboard!");
+  };
+
+  const copyModIds = () => {
     const modIds = mods.map(mod => mod.modId).join(';') + ';';
-    
-    const formattedText = `${workshopIds}\n${modIds}`;
-    navigator.clipboard.writeText(formattedText);
-    toast.success("Formatted mod list copied to clipboard!");
+    navigator.clipboard.writeText(modIds);
+    toast.success("Mod IDs copied to clipboard!");
   };
 
   if (mods.length === 0) {
@@ -35,14 +38,24 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
     <div className="w-full max-w-2xl space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Added Mods ({mods.length})</h2>
-        <Button 
-          variant="outline" 
-          onClick={copyFormattedList}
-          className="hover:bg-gaming-700/10"
-        >
-          <Copy className="w-4 h-4 mr-2" />
-          Copy Formatted List
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={copyWorkshopIds}
+            className="hover:bg-gaming-700/10"
+          >
+            <Copy className="w-4 h-4 mr-2" />
+            Copy Workshop IDs
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={copyModIds}
+            className="hover:bg-gaming-700/10"
+          >
+            <Copy className="w-4 h-4 mr-2" />
+            Copy Mod IDs
+          </Button>
+        </div>
       </div>
       <div className="space-y-3">
         {mods.map((mod, index) => (
