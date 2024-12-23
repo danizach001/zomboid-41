@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Copy, Trash2 } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { Copy, Trash2, Search } from 'lucide-react';
 import { toast } from "sonner";
+import { useState } from "react";
 
 interface Mod {
   workshopId: string;
@@ -14,6 +16,8 @@ interface ModListProps {
 }
 
 export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   const copyWorkshopIds = () => {
     const workshopIds = mods.map(mod => mod.workshopId).join(';') + ';';
     navigator.clipboard.writeText(workshopIds);
@@ -25,6 +29,11 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
     navigator.clipboard.writeText(modIds);
     toast.success("Mod IDs copied to clipboard!");
   };
+
+  const filteredMods = mods.filter(mod => 
+    mod.modId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    mod.workshopId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (mods.length === 0) {
     return (
@@ -57,8 +66,19 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
           </Button>
         </div>
       </div>
+      
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+        <Input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search mods..."
+          className="pl-10"
+        />
+      </div>
+
       <div className="space-y-3">
-        {mods.map((mod, index) => (
+        {filteredMods.map((mod, index) => (
           <Card key={index} className="p-4 bg-background/50 backdrop-blur">
             <div className="flex justify-between items-start">
               <div className="space-y-1">
