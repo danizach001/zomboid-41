@@ -53,8 +53,8 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
         </div>
       </div>
 
-      {/* Main content with top padding to account for navbar */}
-      <div className="pt-16">
+      {/* Main content with reduced top padding */}
+      <div className="pt-8">
         <div className="flex flex-col">
           <div className="flex items-center justify-between pb-2">
             <h2 className="text-xl font-semibold flex items-center gap-2">
