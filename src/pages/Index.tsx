@@ -21,8 +21,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gaming-900 to-background p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
+      <div className="max-w-4xl mx-auto space-y-4 pt-16">
+        <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-gaming-100">
             Project Zomboid Mod Manager
           </h1>
@@ -32,7 +32,7 @@ const Index = () => {
           </p>
         </div>
         
-        <div className="flex flex-col items-center space-y-8">
+        <div className="flex flex-col items-center space-y-2">
           <ModInput onModAdd={handleAddMod} />
           <ModList mods={mods} onRemoveMod={handleRemoveMod} />
         </div>
