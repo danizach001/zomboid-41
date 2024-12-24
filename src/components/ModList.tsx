@@ -37,7 +37,7 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
   }
 
   return (
-    <div className="w-full max-w-2xl space-y-4">
+    <div className="w-full max-w-2xl space-y-2">
       {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border z-50">
         <div className="container flex h-14 max-w-screen-2xl items-center">
@@ -54,8 +54,8 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
       </div>
 
       {/* Main content with top padding to account for navbar */}
-      <div className="pt-16 space-y-4">
-        <div className="flex flex-col gap-4">
+      <div className="pt-16 space-y-2">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold flex items-center gap-2">
               Added Mods <ModCounter count={mods.length} />
@@ -87,7 +87,7 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {filteredMods.map((mod, index) => (
             <ModCard
               key={index}

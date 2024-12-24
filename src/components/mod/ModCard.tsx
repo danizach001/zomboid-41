@@ -19,7 +19,7 @@ export const ModCard = ({ mod, index, onRemove }: ModCardProps) => (
     <div className="flex justify-between items-start">
       <div className="space-y-1">
         <p className="font-mono text-sm">
-          <span className="text-gaming-400">#{index + 1} Workshop ID:</span> {mod.workshopId}
+          <span className="text-gaming-400">Workshop ID:</span> {mod.workshopId}
         </p>
         <p className="font-mono text-sm">
           <span className="text-gaming-400">Mod ID:</span> {mod.modId}
