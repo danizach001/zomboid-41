@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { Search, Home } from 'lucide-react';
+import { Search, Home, Download } from 'lucide-react';
 import { useState } from "react";
 import { ModCounter } from "./mod/ModCounter";
 import { ModActions } from "./mod/ModActions";
@@ -38,12 +38,12 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
 
   return (
     <div className="w-full max-w-2xl space-y-4">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => navigate('/')}
-            className="hover:bg-gaming-700/10"
+            className="hover:bg-gaming-700/10 -ml-2"
           >
             <Home className="w-4 h-4 mr-2" />
             Home
@@ -52,17 +52,22 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
             Added Mods <ModCounter count={mods.length} />
           </h2>
         </div>
-        <ModActions mods={mods} />
+        
+        <div className="flex items-center gap-4">
+          <ModActions mods={mods} />
+        </div>
       </div>
       
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search mods..."
-          className="pl-10"
-        />
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search mods..."
+            className="pl-10"
+          />
+        </div>
       </div>
 
       <div className="space-y-3">
