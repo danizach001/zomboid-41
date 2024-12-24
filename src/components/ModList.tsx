@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Copy, Trash2, Search } from 'lucide-react';
-import { toast } from "sonner";
+import { Search, Home } from 'lucide-react';
 import { useState } from "react";
+import { ModCounter } from "./mod/ModCounter";
+import { ModActions } from "./mod/ModActions";
+import { ModCard } from "./mod/ModCard";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface Mod {
   workshopId: string;
@@ -18,27 +20,7 @@ interface ModListProps {
 
 export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-
-  const copyWorkshopIds = () => {
-    const workshopIds = mods.map(mod => mod.workshopId).join(';') + ';';
-    navigator.clipboard.writeText(workshopIds);
-    toast.success("Workshop IDs copied to clipboard!");
-  };
-
-  const copyModIds = () => {
-    const modIds = mods.map(mod => mod.modId).join(';') + ';';
-    navigator.clipboard.writeText(modIds);
-    toast.success("Mod IDs copied to clipboard!");
-  };
-
-  const copyMapFolders = () => {
-    const mapFolders = mods
-      .filter(mod => mod.mapFolder)
-      .map(mod => mod.mapFolder)
-      .join(';') + ';';
-    navigator.clipboard.writeText(mapFolders);
-    toast.success("Map folders copied to clipboard!");
-  };
+  const navigate = useNavigate();
 
   const filteredMods = mods.filter(mod => 
     mod.modId.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -54,40 +36,23 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
     );
   }
 
-  const hasMapFolders = mods.some(mod => mod.mapFolder);
-
   return (
     <div className="w-full max-w-2xl space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Added Mods ({mods.length})</h2>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            onClick={copyWorkshopIds}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            onClick={() => navigate('/')}
             className="hover:bg-gaming-700/10"
           >
-            <Copy className="w-4 h-4 mr-2" />
-            Copy Workshop IDs
+            <Home className="w-4 h-4 mr-2" />
+            Home
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={copyModIds}
-            className="hover:bg-gaming-700/10"
-          >
-            <Copy className="w-4 h-4 mr-2" />
-            Copy Mod IDs
-          </Button>
-          {hasMapFolders && (
-            <Button 
-              variant="outline" 
-              onClick={copyMapFolders}
-              className="hover:bg-gaming-700/10"
-            >
-              <Copy className="w-4 h-4 mr-2" />
-              Copy Map Folders
-            </Button>
-          )}
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            Added Mods <ModCounter count={mods.length} />
+          </h2>
         </div>
+        <ModActions mods={mods} />
       </div>
       
       <div className="relative">
@@ -102,31 +67,12 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
 
       <div className="space-y-3">
         {filteredMods.map((mod, index) => (
-          <Card key={index} className="p-4 bg-background/50 backdrop-blur">
-            <div className="flex justify-between items-start">
-              <div className="space-y-1">
-                <p className="font-mono text-sm">
-                  <span className="text-gaming-400">Workshop ID:</span> {mod.workshopId}
-                </p>
-                <p className="font-mono text-sm">
-                  <span className="text-gaming-400">Mod ID:</span> {mod.modId}
-                </p>
-                {mod.mapFolder && (
-                  <p className="font-mono text-sm">
-                    <span className="text-gaming-400">Map Folder:</span> {mod.mapFolder}
-                  </p>
-                )}
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onRemoveMod(index)}
-                className="text-destructive hover:text-destructive/90"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </div>
-          </Card>
+          <ModCard
+            key={index}
+            mod={mod}
+            index={index}
+            onRemove={() => onRemoveMod(index)}
+          />
         ))}
       </div>
     </div>

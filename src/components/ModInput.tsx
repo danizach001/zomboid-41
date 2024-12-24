@@ -26,7 +26,14 @@ export const ModInput = ({ onModAdd }: ModInputProps) => {
       }
 
       const workshopId = workshopMatch[1];
-      const modId = modMatch[1];
+      let modId = modMatch[1];
+
+      // Smart sorting: Extract the non-numeric part if modId contains the workshop ID
+      if (modId.includes(workshopId)) {
+        const parts = modId.split('/');
+        modId = parts[parts.length - 1];
+      }
+
       const mapFolder = mapFolderMatch ? mapFolderMatch[1] : undefined;
 
       onModAdd(workshopId, modId, mapFolder);
