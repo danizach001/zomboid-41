@@ -56,18 +56,18 @@ export const ModList = ({ mods, onRemoveMod }: ModListProps) => {
       {/* Main content with top padding to account for navbar */}
       <div className="pt-16">
         <div className="flex flex-col">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pb-2">
             <h2 className="text-xl font-semibold flex items-center gap-2">
               Added Mods <ModCounter count={mods.length} />
             </h2>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 pb-4">
             <ModActions mods={mods} />
           </div>
         </div>
         
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
