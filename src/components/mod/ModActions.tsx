@@ -90,7 +90,7 @@ export const ModActions = ({ mods }: ModActionsProps) => {
         className="hover:bg-gaming-700/10"
       >
         <Download className="w-4 h-4 mr-2" />
-        Export
+        Export IDs
       </Button>
     </div>
   );
